@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="acceptDrops">
+   <bool>false</bool>
+  </property>
+  <property name="windowTitle">
+   <string>Basketball Server</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>ball.png</normaloff>ball.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="Background">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1281</width>
+      <height>721</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>TV HD.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeA_total_pts">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>304</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeA_pts_centro">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>400</y>
+      <width>150</width>
+      <height>145</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>DS-Digital</family>
+      <pointsize>100</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="texto_timeA_total">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>308</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>TOTAL</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="texto_timeA_flt">
+    <property name="geometry">
+     <rect>
+      <x>1230</x>
+      <y>48</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>FLT</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_A_jog1">
+    <property name="geometry">
+     <rect>
+      <x>975</x>
+      <y>91</y>
+      <width>171</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Teste</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeA_total_flt">
+    <property name="geometry">
+     <rect>
+      <x>1225</x>
+      <y>304</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="texto_timeA_pts">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>48</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>PTS</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="texto_timeB_pts">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>409</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>PTS</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeB_nome_centro">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>240</y>
+      <width>295</width>
+      <height>155</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>60</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeA_nome_centro">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>240</y>
+      <width>295</width>
+      <height>155</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>60</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_A_nome_painel_direito">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>10</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>26</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>IFRN</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="texto_timeB_flt">
+    <property name="geometry">
+     <rect>
+      <x>1230</x>
+      <y>409</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>FLT</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeB_pts_centro">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>400</y>
+      <width>150</width>
+      <height>145</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>DS-Digital</family>
+      <pointsize>100</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeB_total_flt">
+    <property name="geometry">
+     <rect>
+      <x>1225</x>
+      <y>663</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeB_total_pts">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>663</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_A_jog2">
+    <property name="geometry">
+     <rect>
+      <x>975</x>
+      <y>133</y>
+      <width>171</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Teste</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_A_jog3">
+    <property name="geometry">
+     <rect>
+      <x>975</x>
+      <y>175</y>
+      <width>171</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Teste</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_A_jog4">
+    <property name="geometry">
+     <rect>
+      <x>975</x>
+      <y>217</y>
+      <width>171</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Teste</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_A_jog5">
+    <property name="geometry">
+     <rect>
+      <x>975</x>
+      <y>259</y>
+      <width>171</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Teste</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_B_jog3">
+    <property name="geometry">
+     <rect>
+      <x>975</x>
+      <y>535</y>
+      <width>171</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Teste</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_B_jog4">
+    <property name="geometry">
+     <rect>
+      <x>975</x>
+      <y>577</y>
+      <width>171</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Teste</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_B_jog1">
+    <property name="geometry">
+     <rect>
+      <x>975</x>
+      <y>451</y>
+      <width>171</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Teste</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_B_jog2">
+    <property name="geometry">
+     <rect>
+      <x>975</x>
+      <y>493</y>
+      <width>171</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Teste</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_B_jog5">
+    <property name="geometry">
+     <rect>
+      <x>975</x>
+      <y>619</y>
+      <width>171</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Teste</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="time_B_nome_painel_direito">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>371</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>26</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>UFRN</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="texto_timeB_total">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>668</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>TOTAL</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeA_flt_centro">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>530</y>
+      <width>71</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>DS-Digital</family>
+      <pointsize>40</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aaaa7f;&quot;&gt;00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeB_flt_centro">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>530</y>
+      <width>71</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>DS-Digital</family>
+      <pointsize>40</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aaaa7f;&quot;&gt;00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <zorder>Background</zorder>
+   <zorder>time_A_jog1</zorder>
+   <zorder>texto_timeA_pts</zorder>
+   <zorder>timeA_nome_centro</zorder>
+   <zorder>texto_timeB_flt</zorder>
+   <zorder>timeB_pts_centro</zorder>
+   <zorder>texto_timeA_flt</zorder>
+   <zorder>timeA_pts_centro</zorder>
+   <zorder>texto_timeA_total</zorder>
+   <zorder>time_A_nome_painel_direito</zorder>
+   <zorder>timeB_nome_centro</zorder>
+   <zorder>texto_timeB_pts</zorder>
+   <zorder>timeA_total_pts</zorder>
+   <zorder>timeA_total_flt</zorder>
+   <zorder>timeB_total_flt</zorder>
+   <zorder>timeB_total_pts</zorder>
+   <zorder>time_A_jog2</zorder>
+   <zorder>time_A_jog3</zorder>
+   <zorder>time_A_jog4</zorder>
+   <zorder>time_A_jog5</zorder>
+   <zorder>time_B_jog3</zorder>
+   <zorder>time_B_jog4</zorder>
+   <zorder>time_B_jog1</zorder>
+   <zorder>time_B_jog2</zorder>
+   <zorder>time_B_jog5</zorder>
+   <zorder>time_B_nome_painel_direito</zorder>
+   <zorder>texto_timeB_total</zorder>
+   <zorder>timeA_flt_centro</zorder>
+   <zorder>timeB_flt_centro</zorder>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
