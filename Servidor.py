@@ -21,6 +21,56 @@ tcp_server_socket.listen(999)
 
 print("Servidor online!")
 
+class Cronometro(Thread):
+	ct_sec = 0
+	ct_min = 1
+	acabou = False
+	periodo = 1
+	def __init__ (self, crono):
+                      Thread.__init__(self)
+		      self.crono = crono
+		
+        def run(self):
+		global parado
+		while True:
+			if (not self.acabou):
+				if (parado == False):
+					time.sleep(1)
+					self.ct_sec-=1
+					if (self.ct_sec<0):
+					    self.ct_sec=59
+					    self.ct_min -= 1
+					if(self.ct_sec <10):
+						self.crono.cronometro_segundos.setText("<font color='red'> " "0" + str(self.ct_sec) + " </font>")
+					else:
+						self.crono.cronometro_segundos.setText("<font color='red'> " + str(self.ct_sec) + " </font>")
+					self.crono.cronometro_minutos.setText("<font color='red'> " "0" + str(self.ct_min) + " </font>")
+					print(str(self.ct_min) + ":" + str(self.ct_sec))
+					print parado
+					if (self.ct_min <= 0 and self.ct_sec <= 0):
+						parado = True
+						self.periodo += 1
+						if(self.periodo < 5):
+							self.ct_min = 10
+							self.ct_sec = 0
+							self.crono.cronometro_segundos.setText("<font color='red'> " "0" + str(self.ct_sec) + " </font>")
+							self.crono.cronometro_minutos.setText("<font color='red'> " + str(self.ct_min) + " </font>")
+							self.crono.periodo.setText("<font color='red'> " + str(self.periodo) + " </font>")
+						elif(self.periodo == 5):
+							if(self.crono.timeA_total_pts.text() == self.crono.timeB_total_pts.text()):
+								self.ct_min = 5
+								self.ct_sec = 0
+								self.crono.cronometro_segundos.setText("<font color='red'> " "0" + str(self.ct_sec) + " </font>")
+								self.crono.cronometro_minutos.setText("<font color='red'> " + str(self.ct_min) + " </font>")
+								self.crono.periodo.setText("<font color='red'> " + str(self.periodo) + " </font>")
+							else:
+								self.acabou = True
+								break
+			
+
+		#client.close()
+		#tcp_server_socket.close()
+
 
 class Th(Thread):
 		
@@ -108,6 +158,8 @@ class Main(QMainWindow, Ui_MainWindow) :
     def __init__(self, ) :
         super(Main, self).__init__()
         self.setupUi(self)
+	cronometro = Cronometro(self)
+	cronometro.start()
 	recebeDados = Th(self)
 	recebeDados.start()
 
