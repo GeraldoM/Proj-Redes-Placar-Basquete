@@ -66,9 +66,9 @@
    <widget class="QLabel" name="timeA_pts_centro">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>400</y>
-      <width>150</width>
+      <x>109</x>
+      <y>260</y>
+      <width>151</width>
       <height>145</height>
      </rect>
     </property>
@@ -151,28 +151,6 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="cronometro_segundos">
-    <property name="geometry">
-     <rect>
-      <x>482</x>
-      <y>20</y>
-      <width>101</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>DS-Digital</family>
-      <pointsize>70</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="timeA_jog5_flt">
     <property name="geometry">
      <rect>
@@ -197,28 +175,6 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="cronometro_separador">
-    <property name="geometry">
-     <rect>
-      <x>438</x>
-      <y>10</y>
-      <width>31</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>DS-Digital</family>
-      <pointsize>70</pointsize>
-      <weight>75</weight>
-      <italic>true</italic>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="timeA_total_flt">
@@ -290,10 +246,10 @@
    <widget class="QLabel" name="timeB_nome_centro">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>240</y>
+      <x>40</x>
+      <y>480</y>
       <width>295</width>
-      <height>155</height>
+      <height>111</height>
      </rect>
     </property>
     <property name="font">
@@ -313,10 +269,10 @@
    <widget class="QLabel" name="timeA_nome_centro">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>240</y>
+      <x>540</x>
+      <y>484</y>
       <width>295</width>
-      <height>155</height>
+      <height>111</height>
      </rect>
     </property>
     <property name="font">
@@ -359,34 +315,6 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="cronometro_minutos">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>20</y>
-      <width>91</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>DS-Digital</family>
-      <pointsize>70</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;10&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
    <widget class="QLabel" name="texto_timeB_flt">
     <property name="geometry">
      <rect>
@@ -410,9 +338,9 @@
    <widget class="QLabel" name="timeB_pts_centro">
     <property name="geometry">
      <rect>
-      <x>630</x>
-      <y>400</y>
-      <width>150</width>
+      <x>609</x>
+      <y>260</y>
+      <width>151</width>
       <height>145</height>
      </rect>
     </property>
@@ -1210,16 +1138,16 @@
    <widget class="QLabel" name="timeA_flt_centro">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>530</y>
-      <width>71</width>
-      <height>51</height>
+      <x>160</x>
+      <y>375</y>
+      <width>41</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>DS-Digital</family>
-      <pointsize>40</pointsize>
+      <pointsize>48</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -1229,7 +1157,7 @@
      <bool>false</bool>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aaaa7f;&quot;&gt;00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#3e3e3e;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1238,16 +1166,16 @@
    <widget class="QLabel" name="timeB_flt_centro">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>530</y>
-      <width>71</width>
-      <height>51</height>
+      <x>660</x>
+      <y>375</y>
+      <width>41</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>DS-Digital</family>
-      <pointsize>40</pointsize>
+      <pointsize>48</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -1257,7 +1185,7 @@
      <bool>false</bool>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aaaa7f;&quot;&gt;00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#3e3e3e;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1281,6 +1209,84 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QLabel" name="cronometro_segundos">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>0</y>
+       <width>101</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>DS-Digital</family>
+       <pointsize>70</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="cronometro_minutos">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>0</y>
+       <width>91</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>DS-Digital</family>
+       <pointsize>70</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;10&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="cronometro_separador">
+     <property name="geometry">
+      <rect>
+       <x>125</x>
+       <y>-5</y>
+       <width>31</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>DS-Digital</family>
+       <pointsize>70</pointsize>
+       <weight>75</weight>
+       <italic>true</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="indent">
+      <number>-1</number>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="painel_periodo">
     <property name="geometry">
@@ -1288,7 +1294,7 @@
       <x>360</x>
       <y>110</y>
       <width>81</width>
-      <height>61</height>
+      <height>65</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -1303,7 +1309,7 @@
        <x>20</x>
        <y>0</y>
        <width>41</width>
-       <height>51</height>
+       <height>61</height>
       </rect>
      </property>
      <property name="font">
@@ -1326,7 +1332,7 @@
       <x>440</x>
       <y>110</y>
       <width>101</width>
-      <height>61</height>
+      <height>65</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -1358,13 +1364,89 @@
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="painel_tempo_tecnico">
+   <widget class="QLabel" name="timeA_tt1">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>110</y>
-      <width>301</width>
-      <height>61</height>
+      <x>190</x>
+      <y>45</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>Clock.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeA_tt2">
+    <property name="geometry">
+     <rect>
+      <x>245</x>
+      <y>45</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>Clock.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeB_tt1">
+    <property name="geometry">
+     <rect>
+      <x>615</x>
+      <y>45</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>Clock.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeB_tt2">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>45</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>Clock.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QFrame" name="painel_tt_A">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>20</y>
+      <width>561</width>
+      <height>91</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -1373,99 +1455,6 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QRadioButton" name="timeA_tt2">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>20</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="checkable">
-      <bool>false</bool>
-     </property>
-     <property name="autoExclusive">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="timeA_tt1">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>7</x>
-       <y>20</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="checkable">
-      <bool>false</bool>
-     </property>
-     <property name="autoExclusive">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="timeB_tt1">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>250</x>
-       <y>20</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="checkable">
-      <bool>false</bool>
-     </property>
-     <property name="autoExclusive">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="timeB_tt2">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>273</x>
-       <y>20</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="checkable">
-      <bool>false</bool>
-     </property>
-     <property name="autoExclusive">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <zorder>timeA_tt2</zorder>
-    <zorder>timeA_tt1</zorder>
-    <zorder>timeB_tt1</zorder>
-    <zorder>timeB_tt2</zorder>
-    <zorder>frame</zorder>
    </widget>
    <zorder>Background</zorder>
    <zorder>time_A_jog1</zorder>
@@ -1473,7 +1462,6 @@
    <zorder>timeA_nome_centro</zorder>
    <zorder>texto_timeB_flt</zorder>
    <zorder>timeB_pts_centro</zorder>
-   <zorder>cronometro_separador</zorder>
    <zorder>texto_timeA_flt</zorder>
    <zorder>timeA_pts_centro</zorder>
    <zorder>texto_timeA_total</zorder>
@@ -1481,8 +1469,6 @@
    <zorder>timeB_nome_centro</zorder>
    <zorder>texto_timeB_pts</zorder>
    <zorder>timeA_total_pts</zorder>
-   <zorder>cronometro_segundos</zorder>
-   <zorder>cronometro_minutos</zorder>
    <zorder>timeA_jog5_flt</zorder>
    <zorder>timeA_total_flt</zorder>
    <zorder>timeB_total_flt</zorder>
@@ -1522,7 +1508,11 @@
    <zorder>painel_cronometro</zorder>
    <zorder>painel_periodo</zorder>
    <zorder>painel_posse</zorder>
-   <zorder>painel_tempo_tecnico</zorder>
+   <zorder>timeA_tt1</zorder>
+   <zorder>timeA_tt2</zorder>
+   <zorder>timeB_tt1</zorder>
+   <zorder>timeB_tt2</zorder>
+   <zorder>painel_tt_A</zorder>
   </widget>
  </widget>
  <resources/>
