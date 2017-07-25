@@ -17,7 +17,105 @@ tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 Ui_MainWindow, QMainWindow = loadUiType('Cliente.ui')
 
- 
+parado = True
+parado_posse = True
+zerar_posse = False
+
+class Cronometro_posse(Thread):
+	ct_sec = 24
+	acabou = False
+	def __init__ (self, crono):
+                      Thread.__init__(self)
+		      self.crono = crono
+		
+        def run(self):
+		global parado_posse
+		global zerar_posse
+		while True:
+			if(self.ct_sec < 10):
+				self.crono.cronometro_posse.setText("<font color='red'> " "0" + str(self.ct_sec) + " </font>")
+			else:
+				self.crono.cronometro_posse.setText("<font color='red'> " + str(self.ct_sec) + " </font>")
+			if(zerar_posse == True):
+				self.ct_sec = 24
+				zerar_posse = False
+				self.crono.cronometro_posse.setText("<font color='red'> " + str(self.ct_sec) + " </font>")
+				
+			if (parado_posse == False):
+				time.sleep(1)
+				self.ct_sec-=1
+				
+				if (self.ct_sec<0):
+					zerar_posse = True
+					parado_posse = True
+					self.crono.botao_continuar_posse.setText("Iniciar")
+					self.crono.botao_zerar_posse.setEnabled(False)
+			
+
+
+class Cronometro(Thread):
+	ct_sec = 0
+	ct_min = 10
+	acabou = False
+	periodo = 1
+	def __init__ (self, crono):
+                      Thread.__init__(self)
+		      self.crono = crono
+		
+        def run(self):
+		global parado
+		while True:
+			if (not self.acabou):
+				if (parado == False):
+					time.sleep(1)
+					self.ct_sec-=1
+					if (self.ct_sec<0):
+					    self.ct_sec=59
+					    self.ct_min -= 1
+					if(self.ct_sec <10):
+						self.crono.cronometro_segundos.setText("<font color='red'> " "0" + str(self.ct_sec) + " </font>")
+					else:
+						self.crono.cronometro_segundos.setText("<font color='red'> " + str(self.ct_sec) + " </font>")
+					self.crono.cronometro_minutos.setText("<font color='red'> " "0" + str(self.ct_min) + " </font>")
+					print(str(self.ct_min) + ":" + str(self.ct_sec))
+			
+					if (self.ct_min <= 0 and self.ct_sec <= 0):
+						parado = True
+						parado_posse = True
+						zerar_posse = True
+						self.periodo+=1
+						self.crono.botao_timeA_1pt.setEnabled(False)
+						self.crono.botao_timeA_2pt.setEnabled(False)
+						self.crono.botao_timeA_3pt.setEnabled(False)
+						self.crono.botao_timeA_falta.setEnabled(False)
+						self.crono.botao_timeB_1pt.setEnabled(False)
+						self.crono.botao_timeB_2pt.setEnabled(False)
+						self.crono.botao_timeB_3pt.setEnabled(False)
+						self.crono.botao_timeB_falta.setEnabled(False)
+						self.crono.botao_pausar.setEnabled(False)
+						self.crono.botao_desfazer.setEnabled(False)
+						self.crono.botao_iniciar.setEnabled(True)
+						self.crono.botao_continuar_posse.setEnabled(False)
+						self.crono.botao_zerar_posse.setEnabled(False)
+						self.crono.botao_continuar_posse.setText("Continuar")
+						if(self.periodo < 5):
+							self.ct_min = 10
+							self.ct_sec = 0
+							self.crono.cronometro_segundos.setText("<font color='red'> " "0" + str(self.ct_sec) + " </font>")
+							self.crono.cronometro_minutos.setText("<font color='red'> " + str(self.ct_min) + " </font>")
+						elif(self.periodo == 5):
+							self.ct_min = 15
+							self.ct_sec = 0
+							self.crono.cronometro_segundos.setText("<font color='red'> " "0" + str(self.ct_sec) + " </font>")
+							self.crono.cronometro_minutos.setText("<font color='red'> " + str(self.ct_min) + " </font>")
+						else:
+							self.acabou = True
+							tcp_client_socket.close()
+							break
+						self.crono.periodo.setText("<font color='red'> " + str(self.periodo) + " </font>")
+
+
+						
 class Main(QMainWindow, Ui_MainWindow) :
     dados = ""
     dadosAnt = ""
@@ -104,10 +202,16 @@ class Main(QMainWindow, Ui_MainWindow) :
     arbitro = ""
     pontotemp = 0
     faltatemp = 0
+    pausado = False
+    periodo = 1
 
     def __init__(self, ) :
         super(Main, self).__init__()
         self.setupUi(self)
+	cronometro = Cronometro(self)
+   	cronometro.start()
+	cronometro_posse = Cronometro_posse(self)
+   	cronometro_posse.start()
 
         self.botao_avancar.clicked.connect(self.avancar)
 	self.botao_timeA_1pt.clicked.connect(self.timeA_1pt)
