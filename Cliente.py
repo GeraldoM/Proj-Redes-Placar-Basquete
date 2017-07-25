@@ -214,6 +214,9 @@ class Main(QMainWindow, Ui_MainWindow) :
    	cronometro_posse.start()
 
         self.botao_avancar.clicked.connect(self.avancar)
+	self.botao_iniciar.clicked.connect(self.iniciar)
+	self.botao_pausar.clicked.connect(self.pausar_continuar)
+	self.botao_desfazer.clicked.connect(self.desfazer)
 	self.botao_timeA_1pt.clicked.connect(self.timeA_1pt)
 	self.botao_timeA_2pt.clicked.connect(self.timeA_2pt)
 	self.botao_timeA_3pt.clicked.connect(self.timeA_3pt)
@@ -240,7 +243,64 @@ class Main(QMainWindow, Ui_MainWindow) :
 		self.ponto_centro_timeB.setText("<font color='red'> " + "0" + str(self.time_B_pts) + " </font>")
 	self.falta_centro_timeB.setText("<font color='gray'> " + str(self.time_B_flt_total) + " </font>")
 
+    def iniciar (self):
+	global parado
+	message = "#iniciar" 
+	byte_msg = message.encode('utf-8')
+	tcp_client_socket.send(byte_msg)
+	parado = False
+	self.botao_timeA_1pt.setEnabled(True)
+	self.botao_timeA_2pt.setEnabled(True)
+	self.botao_timeA_3pt.setEnabled(True)
+	self.botao_timeA_falta.setEnabled(True)
+	self.botao_timeB_1pt.setEnabled(True)
+	self.botao_timeB_2pt.setEnabled(True)
+	self.botao_timeB_3pt.setEnabled(True)
+	self.botao_timeB_falta.setEnabled(True)
+	self.botao_pausar.setEnabled(True)
+	self.botao_desfazer.setEnabled(False)
+	self.botao_iniciar.setEnabled(False)
 
+    def timeA_tt(self):
+	self.time_A_tt_total += 1
+	if (self.time_A_tt_total == 1):
+		message = "#tt_A1"
+		byte_msg = message.encode('utf-8')
+		tcp_client_socket.send(byte_msg)
+	elif(self.time_B_tt_total == 2):
+		message = "#tt_A2"
+		byte_msg = message.encode('utf-8')
+		tcp_client_socket.send(byte_msg)
+		self.botao_timeA_tt.setEnabled(False)
+
+    def timeB_tt(self):
+	self.time_A_tt_total += 1
+	if (self.time_B_tt_total == 1):
+		message = "#tt_B1"
+		byte_msg = message.encode('utf-8')
+		tcp_client_socket.send(byte_msg)
+	elif(self.time_B_tt_total == 2):
+		message = "#tt_B2"
+		byte_msg = message.encode('utf-8')
+		tcp_client_socket.send(byte_msg)
+		self.botao_timeB_tt.setEnabled(False)
+
+    def pausar_continuar (self):
+	global parado
+	if(self.pausado == False):
+		self.pausado = True
+		parado = True
+		self.botao_pausar.setText("Continuar")
+		message = "#pausar"
+		byte_msg = message.encode('utf-8')
+		tcp_client_socket.send(byte_msg)
+	else:
+		self.pausado = False
+		parado = False
+		self.botao_pausar.setText("Pausar")
+		message = "#continuar"
+		byte_msg = message.encode('utf-8')
+		tcp_client_socket.send(byte_msg)
 
 	
 
@@ -356,6 +416,18 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.botao_ok_pt_flt_B.hide()
 	self.painel_pt_flt.close()
 
+
+    def desfazer(self):
+	self.dados = self.dadosAnt
+	temp = self.dados.split()
+	byte_msg = self.dados.encode('utf-8')
+	tcp_client_socket.send(byte_msg)
+	self.time_A_pts = int(temp[1])
+	self.time_A_flt_total = int(temp[2])
+	self.time_B_pts = int(temp[19])
+	self.time_B_flt_total = int(temp[20])
+	self.botao_desfazer.setEnabled(False)
+	self.atualizarDadosCliente()
 
     def timeA_1pt (self):
 	self.botao_timeA_1pt.setEnabled(False)
