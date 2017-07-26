@@ -20,7 +20,6 @@ Ui_MainWindow, QMainWindow = loadUiType('Cliente.ui')
 parado = True
 parado_posse = True
 zerar_posse = False
-
 class Cronometro_posse(Thread):
 	ct_sec = 24
 	acabou = False
@@ -77,7 +76,7 @@ class Cronometro(Thread):
 					else:
 						self.crono.cronometro_segundos.setText("<font color='red'> " + str(self.ct_sec) + " </font>")
 					self.crono.cronometro_minutos.setText("<font color='red'> " "0" + str(self.ct_min) + " </font>")
-					print(str(self.ct_min) + ":" + str(self.ct_sec))
+					#print(str(self.ct_min) + ":" + str(self.ct_sec))
 			
 					if (self.ct_min <= 0 and self.ct_sec <= 0):
 						parado = True
@@ -113,9 +112,11 @@ class Cronometro(Thread):
 							tcp_client_socket.close()
 							break
 						self.crono.periodo.setText("<font color='red'> " + str(self.periodo) + " </font>")
-
-
 						
+
+		
+
+ 
 class Main(QMainWindow, Ui_MainWindow) :
     dados = ""
     dadosAnt = ""
@@ -200,7 +201,7 @@ class Main(QMainWindow, Ui_MainWindow) :
     reserva6b_flt = 0
     reserva7b_flt = 0
     arbitro = ""
-    pontotemp = 0
+    pontoTemp = 0
     faltatemp = 0
     pausado = False
     periodo = 1
@@ -212,21 +213,35 @@ class Main(QMainWindow, Ui_MainWindow) :
    	cronometro.start()
 	cronometro_posse = Cronometro_posse(self)
    	cronometro_posse.start()
-
+	self.Cadastro.hide()
+	self.Controle.hide()
+	self.botao_conectar.clicked.connect(self.conectar)
         self.botao_avancar.clicked.connect(self.avancar)
-	self.botao_iniciar.clicked.connect(self.iniciar)
+        self.botao_iniciar.clicked.connect(self.iniciar)
 	self.botao_pausar.clicked.connect(self.pausar_continuar)
 	self.botao_desfazer.clicked.connect(self.desfazer)
 	self.botao_timeA_1pt.clicked.connect(self.timeA_1pt)
 	self.botao_timeA_2pt.clicked.connect(self.timeA_2pt)
 	self.botao_timeA_3pt.clicked.connect(self.timeA_3pt)
 	self.botao_timeA_falta.clicked.connect(self.timeA_falta)
+	self.botao_timeA_substituicao.clicked.connect(self.substituicao_A)
+	self.botao_timeB_substituicao.clicked.connect(self.substituicao_B)
 	self.botao_timeB_1pt.clicked.connect(self.timeB_1pt)
 	self.botao_timeB_2pt.clicked.connect(self.timeB_2pt)
 	self.botao_timeB_3pt.clicked.connect(self.timeB_3pt)
 	self.botao_timeB_falta.clicked.connect(self.timeB_falta)
-	tcp_client_socket.connect((HOST,PORT))
+	self.botao_ok_substituicao_A.clicked.connect(self.ok_substituicao_A)
+	self.botao_ok_substituicao_B.clicked.connect(self.ok_substituicao_B)
+	self.botao_timeA_tt.clicked.connect(self.timeA_tt)
+	self.botao_timeB_tt.clicked.connect(self.timeB_tt)
+	self.botao_cancelar_substituicao.clicked.connect(self.cancelar_substituicao)
+	self.botao_ok_pt_flt_A.clicked.connect(self.ok_pt_flt_A)
+	self.botao_ok_pt_flt_B.clicked.connect(self.ok_pt_flt_B)
+	self.botao_continuar_posse.clicked.connect(self.pausar_continuar_posse)
+	self.botao_zerar_posse.clicked.connect(self.zerar_cronometro_posse)
 	
+	
+
     def atualizarDados(self):
 	self.dados = (str(self.nome_time_A) + " " + str(self.time_A_pts) + " " + str(self.time_A_flt_total) + " " + str(self.jog1a) + " " + str(self.jog2a) + " " + str(self.jog3a) + " " + str(self.jog4a) + " " + str(self.jog5a) + " " + str(self.jog1a_pts) + " " + str(self.jog2a_pts) + " " + str(self.jog3a_pts) + " " + str(self.jog4a_pts) + " " + str(self.jog5a_pts) + " " + str(self.jog1a_flt) + " " + str(self.jog2a_flt) + " " + str(self.jog3a_flt) + " " + str(self.jog4a_flt) + " " + str(self.jog5a_flt) + " " + str(self.nome_time_B) + " " + str(self.time_B_pts) + " " + str(self.time_B_flt_total) + " " + str(self.jog1b) + " " + str(self.jog2b) + " " + str(self.jog3b) + " " + str(self.jog4b) + " " + str(self.jog5b) + " " + str(self.jog1b_pts) + " " + str(self.jog2b_pts) + " " + str(self.jog3b_pts) + " " + str(self.jog4b_pts) + " " + str(self.jog5b_pts) + " " + str(self.jog1b_flt) + " " + str(self.jog2b_flt) + " " + str(self.jog3b_flt) + " " + str(self.jog4b_flt) + " " + str(self.jog5b_flt))
 	
@@ -243,12 +258,15 @@ class Main(QMainWindow, Ui_MainWindow) :
 		self.ponto_centro_timeB.setText("<font color='red'> " + "0" + str(self.time_B_pts) + " </font>")
 	self.falta_centro_timeB.setText("<font color='gray'> " + str(self.time_B_flt_total) + " </font>")
 
+
     def iniciar (self):
 	global parado
+	global parado_posse
 	message = "#iniciar" 
 	byte_msg = message.encode('utf-8')
 	tcp_client_socket.send(byte_msg)
 	parado = False
+	parado_posse = False
 	self.botao_timeA_1pt.setEnabled(True)
 	self.botao_timeA_2pt.setEnabled(True)
 	self.botao_timeA_3pt.setEnabled(True)
@@ -259,22 +277,30 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.botao_timeB_falta.setEnabled(True)
 	self.botao_pausar.setEnabled(True)
 	self.botao_desfazer.setEnabled(False)
+	self.botao_continuar_posse.setEnabled(True)
+	self.botao_zerar_posse.setEnabled(True)
+	self.botao_continuar_posse.setText("Pausar")
+	if (self.time_A_tt_total < 2):
+		self.botao_timeA_tt.setEnabled(True)
+	if (self.time_B_tt_total < 2):
+		self.botao_timeB_tt.setEnabled(True)
 	self.botao_iniciar.setEnabled(False)
 
     def timeA_tt(self):
 	self.time_A_tt_total += 1
+	print(self.time_A_tt_total)
 	if (self.time_A_tt_total == 1):
 		message = "#tt_A1"
 		byte_msg = message.encode('utf-8')
 		tcp_client_socket.send(byte_msg)
-	elif(self.time_B_tt_total == 2):
+	elif(self.time_A_tt_total == 2):
 		message = "#tt_A2"
 		byte_msg = message.encode('utf-8')
 		tcp_client_socket.send(byte_msg)
 		self.botao_timeA_tt.setEnabled(False)
 
     def timeB_tt(self):
-	self.time_A_tt_total += 1
+	self.time_B_tt_total += 1
 	if (self.time_B_tt_total == 1):
 		message = "#tt_B1"
 		byte_msg = message.encode('utf-8')
@@ -285,11 +311,15 @@ class Main(QMainWindow, Ui_MainWindow) :
 		tcp_client_socket.send(byte_msg)
 		self.botao_timeB_tt.setEnabled(False)
 
+	
     def pausar_continuar (self):
 	global parado
+	global parado_posse
 	if(self.pausado == False):
 		self.pausado = True
 		parado = True
+		parado_posse = True
+		self.botao_continuar_posse.setEnabled(False)
 		self.botao_pausar.setText("Continuar")
 		message = "#pausar"
 		byte_msg = message.encode('utf-8')
@@ -297,12 +327,399 @@ class Main(QMainWindow, Ui_MainWindow) :
 	else:
 		self.pausado = False
 		parado = False
+		parado_posse = False
 		self.botao_pausar.setText("Pausar")
+		self.botao_continuar_posse.setText("Pausar")
+		self.botao_continuar_posse.setEnabled(True)
 		message = "#continuar"
 		byte_msg = message.encode('utf-8')
 		tcp_client_socket.send(byte_msg)
 
+    def pausar_continuar_posse (self):
+	global parado_posse
+	if(parado_posse == False):
+		parado_posse = True
+		self.botao_continuar_posse.setText("Continuar")
+		message = "#pausar_posse"
+		byte_msg = message.encode('utf-8')
+		tcp_client_socket.send(byte_msg)
+	else:
+		parado_posse = False
+		self.botao_continuar_posse.setText("Pausar")
+		self.botao_zerar_posse.setEnabled(True)
+		message = "#continuar_posse"
+		byte_msg = message.encode('utf-8')
+		tcp_client_socket.send(byte_msg)
+
+    def zerar_cronometro_posse (self):
+	global zerar_posse
+	zerar_posse = True
+	message = "#zerar_posse"
+	byte_msg = message.encode('utf-8')
+	tcp_client_socket.send(byte_msg)
+
+    def substituicao_A(self):
+	self.botao_ok_substituicao_A.show()
+	self.painel_substituicao.move(70, 210)
+	self.sub_jog1.setText(self.jog1a)
+	self.sub_jog2.setText(self.jog2a)
+	self.sub_jog3.setText(self.jog3a)
+	self.sub_jog4.setText(self.jog4a)
+	self.sub_jog5.setText(self.jog5a)
+	self.sub_res1.setText(self.reserva1a)
+	self.sub_res2.setText(self.reserva2a)
+	self.sub_res3.setText(self.reserva3a)
+	self.sub_res4.setText(self.reserva4a)
+	self.sub_res5.setText(self.reserva5a)
+	self.sub_res6.setText(self.reserva6a)
+	self.sub_res7.setText(self.reserva7a)
+	self.botao_timeA_1pt.setEnabled(False)
+	self.botao_timeA_2pt.setEnabled(False)
+	self.botao_timeA_3pt.setEnabled(False)
+	self.botao_timeA_falta.setEnabled(False)
+	self.botao_timeA_substituicao.setEnabled(False)
+	self.botao_timeB_1pt.setEnabled(False)
+	self.botao_timeB_2pt.setEnabled(False)
+	self.botao_timeB_3pt.setEnabled(False)
+	self.botao_timeB_falta.setEnabled(False)
+	self.botao_timeB_substituicao.setEnabled(False)
+	self.botao_desfazer.setEnabled(False)
+	self.painel_substituicao.show()
+		
+    def substituicao_B(self):
+	self.botao_ok_substituicao_B.show()
+	self.painel_substituicao.move(900, 210)
+	self.sub_jog1.setText(self.jog1b)
+	self.sub_jog2.setText(self.jog2b)
+	self.sub_jog3.setText(self.jog3b)
+	self.sub_jog4.setText(self.jog4b)
+	self.sub_jog5.setText(self.jog5b)
+	self.sub_res1.setText(self.reserva1b)
+	self.sub_res2.setText(self.reserva2b)
+	self.sub_res3.setText(self.reserva3b)
+	self.sub_res4.setText(self.reserva4b)
+	self.sub_res5.setText(self.reserva5b)
+	self.sub_res6.setText(self.reserva6b)
+	self.sub_res7.setText(self.reserva7b)
+	self.botao_timeA_1pt.setEnabled(False)
+	self.botao_timeA_2pt.setEnabled(False)
+	self.botao_timeA_3pt.setEnabled(False)
+	self.botao_timeA_falta.setEnabled(False)
+	self.botao_timeA_substituicao.setEnabled(False)
+	self.botao_timeB_1pt.setEnabled(False)
+	self.botao_timeB_2pt.setEnabled(False)
+	self.botao_timeB_3pt.setEnabled(False)
+	self.botao_timeB_falta.setEnabled(False)
+	self.botao_timeB_substituicao.setEnabled(False)
+	self.botao_desfazer.setEnabled(False)
+	self.painel_substituicao.show()
 	
+    def cancelar_substituicao(self):
+	self.botao_ok_substituicao_A.hide()
+	self.botao_ok_substituicao_B.hide()
+	self.painel_substituicao.hide()
+	self.botao_timeA_1pt.setEnabled(True)
+	self.botao_timeA_2pt.setEnabled(True)
+	self.botao_timeA_3pt.setEnabled(True)
+	self.botao_timeA_falta.setEnabled(True)
+	self.botao_timeA_substituicao.setEnabled(True)
+	self.botao_timeB_1pt.setEnabled(True)
+	self.botao_timeB_2pt.setEnabled(True)
+	self.botao_timeB_3pt.setEnabled(True)
+	self.botao_timeB_falta.setEnabled(True)
+	self.botao_timeB_substituicao.setEnabled(True)
+
+    def ok_substituicao_A(self):
+	self.botao_ok_substituicao_A.hide()
+	self.botao_ok_substituicao_B.hide()
+	self.painel_substituicao.hide()
+	if (self.sub_jog1.isChecked()):
+		novoreserva_nome = self.jog1a
+		novoreserva_pts = self.jog1a_pts
+		novoreserva_flt = self.jog1a_flt
+		self.sub_jog1.setChecked(False)
+		if (self.sub_res1.isChecked()):
+			self.jog1a = self.reserva1a
+			self.jog1a_pts = self.reserva1a_pts
+			self.jog1a_flt = self.reserva1a_flt
+			self.reserva1a = novoreserva_nome
+			self.reserva1a_pts = novoreserva_pts
+			self.reserva1a_flt = novoreserva_flt
+		elif (self.sub_res2.isChecked()):
+			self.jog1a = self.reserva2a
+			self.jog1a_pts = self.reserva2a_pts
+			self.jog1a_flt = self.reserva2a_flt
+			self.reserva2a = novoreserva_nome
+			self.reserva2a_pts = novoreserva_pts
+			self.reserva2a_flt = novoreserva_flt
+		elif (self.sub_res3.isChecked()):
+			self.jog1a = self.reserva3a
+			self.jog1a_pts = self.reserva3a_pts
+			self.jog1a_flt = self.reserva3a_flt
+			self.reserva3a = novoreserva_nome
+			self.reserva3a_pts = novoreserva_pts
+			self.reserva3a_flt = novoreserva_flt
+		elif (self.sub_res4.isChecked()):
+			self.jog1a = self.reserva4a
+			self.jog1a_pts = self.reserva4a_pts
+			self.jog1a_flt = self.reserva4a_flt
+			self.reserva4a = novoreserva_nome
+			self.reserva4a_pts = novoreserva_pts
+			self.reserva4a_flt = novoreserva_flt
+		elif (self.sub_res5.isChecked()):
+			self.jog1a = self.reserva5a
+			self.jog1a_pts = self.reserva5a_pts
+			self.jog1a_flt = self.reserva5a_flt
+			self.reserva5a = novoreserva_nome
+			self.reserva5a_pts = novoreserva_pts
+			self.reserva5a_flt = novoreserva_flt
+		elif (self.sub_res6.isChecked()):
+			self.jog1a = self.reserva6a
+			self.jog1a_pts = self.reserva6a_pts
+			self.jog1a_flt = self.reserva6a_flt
+			self.reserva6a = novoreserva_nome
+			self.reserva6a_pts = novoreserva_pts
+			self.reserva6a_flt = novoreserva_flt
+		else:
+			self.jog1a = self.reserva7a
+			self.jog1a_pts = self.reserva7a_pts
+			self.jog1a_flt = self.reserva7a_flt
+			self.reserva7a = novoreserva_nome
+			self.reserva7a_pts = novoreserva_pts
+			self.reserva7a_flt = novoreserva_flt
+	elif (self.sub_jog2.isChecked()):
+		novoreserva_nome = self.jog2a
+		novoreserva_pts = self.jog2a_pts
+		novoreserva_flt = self.jog2a_flt
+		self.pt_flt_jog2.setChecked(False)
+		if (self.sub_res1.isChecked()):
+			self.jog2a = self.reserva1a
+			self.jog2a_pts = self.reserva1a_pts
+			self.jog2a_flt = self.reserva1a_flt
+			self.reserva1a = novoreserva_nome
+			self.reserva1a_pts = novoreserva_pts
+			self.reserva1a_flt = novoreserva_flt
+		elif (self.sub_res2.isChecked()):
+			self.jog2a = self.reserva2a
+			self.jog2a_pts = self.reserva2a_pts
+			self.jog2a_flt = self.reserva2a_flt
+			self.reserva2a = novoreserva_nome
+			self.reserva2a_pts = novoreserva_pts
+			self.reserva2a_flt = novoreserva_flt
+		elif (self.sub_res3.isChecked()):
+			self.jog2a = self.reserva3a
+			self.jog2a_pts = self.reserva3a_pts
+			self.jog2a_flt = self.reserva3a_flt
+			self.reserva3a = novoreserva_nome
+			self.reserva3a_pts = novoreserva_pts
+			self.reserva3a_flt = novoreserva_flt
+		elif (self.sub_res4.isChecked()):
+			self.jog2a = self.reserva4a
+			self.jog2a_pts = self.reserva4a_pts
+			self.jog2a_flt = self.reserva4a_flt
+			self.reserva4a = novoreserva_nome
+			self.reserva4a_pts = novoreserva_pts
+			self.reserva4a_flt = novoreserva_flt
+		elif (self.sub_res5.isChecked()):
+			self.jog2a = self.reserva5a
+			self.jog2a_pts = self.reserva5a_pts
+			self.jog2a_flt = self.reserva5a_flt
+			self.reserva5a = novoreserva_nome
+			self.reserva5a_pts = novoreserva_pts
+			self.reserva5a_flt = novoreserva_flt
+		elif (self.sub_res6.isChecked()):
+			self.jog2a = self.reserva6a
+			self.jog2a_pts = self.reserva6a_pts
+			self.jog2a_flt = self.reserva6a_flt
+			self.reserva6a = novoreserva_nome
+			self.reserva6a_pts = novoreserva_pts
+			self.reserva6a_flt = novoreserva_flt
+		else:
+			self.jog2a = self.reserva7a
+			self.jog2a_pts = self.reserva7a_pts
+			self.jog2a_flt = self.reserva7a_flt
+			self.reserva7a = novoreserva_nome
+			self.reserva7a_pts = novoreserva_pts
+			self.reserva7a_flt = novoreserva_flt
+	elif (self.sub_jog3.isChecked()):
+		novoreserva_nome = self.jog3a
+		novoreserva_pts = self.jog3a_pts
+		novoreserva_flt = self.jog3a_flt
+		self.pt_flt_jog3.setChecked(False)
+		if (self.sub_res1.isChecked()):
+			self.jog3a = self.reserva1a
+			self.jog3a_pts = self.reserva1a_pts
+			self.jog3a_flt = self.reserva1a_flt
+			self.reserva1a = novoreserva_nome
+			self.reserva1a_pts = novoreserva_pts
+			self.reserva1a_flt = novoreserva_flt
+		elif (self.sub_res2.isChecked()):
+			self.jog3a = self.reserva2a
+			self.jog3a_pts = self.reserva2a_pts
+			self.jog3a_flt = self.reserva2a_flt
+			self.reserva2a = novoreserva_nome
+			self.reserva2a_pts = novoreserva_pts
+			self.reserva2a_flt = novoreserva_flt
+		elif (self.sub_res3.isChecked()):
+			self.jog3a = self.reserva3a
+			self.jog3a_pts = self.reserva3a_pts
+			self.jog3a_flt = self.reserva3a_flt
+			self.reserva3a = novoreserva_nome
+			self.reserva3a_pts = novoreserva_pts
+			self.reserva3a_flt = novoreserva_flt
+		elif (self.sub_res4.isChecked()):
+			self.jog3a = self.reserva4a
+			self.jog3a_pts = self.reserva4a_pts
+			self.jog3a_flt = self.reserva4a_flt
+			self.reserva4a = novoreserva_nome
+			self.reserva4a_pts = novoreserva_pts
+			self.reserva4a_flt = novoreserva_flt
+		elif (self.sub_res5.isChecked()):
+			self.jog3a = self.reserva5a
+			self.jog3a_pts = self.reserva5a_pts
+			self.jog3a_flt = self.reserva5a_flt
+			self.reserva5a = novoreserva_nome
+			self.reserva5a_pts = novoreserva_pts
+			self.reserva5a_flt = novoreserva_flt
+		elif (self.sub_res6.isChecked()):
+			self.jog3a = self.reserva6a
+			self.jog3a_pts = self.reserva6a_pts
+			self.jog3a_flt = self.reserva6a_flt
+			self.reserva6a = novoreserva_nome
+			self.reserva6a_pts = novoreserva_pts
+			self.reserva6a_flt = novoreserva_flt
+		else:
+			self.jog3a = self.reserva7a
+			self.jog3a_pts = self.reserva7a_pts
+			self.jog3a_flt = self.reserva7a_flt
+			self.reserva7a = novoreserva_nome
+			self.reserva7a_pts = novoreserva_pts
+			self.reserva7a_flt = novoreserva_flt
+	elif (self.sub_jog4.isChecked()):
+		novoreserva_nome = self.jog4a
+		novoreserva_pts = self.jog4a_pts
+		novoreserva_flt = self.jog4a_flt
+		self.pt_flt_jog4.setChecked(False)
+		if (self.sub_res1.isChecked()):
+			self.jog4a = self.reserva1a
+			self.jog4a_pts = self.reserva1a_pts
+			self.jog4a_flt = self.reserva1a_flt
+			self.reserva1a = novoreserva_nome
+			self.reserva1a_pts = novoreserva_pts
+			self.reserva1a_flt = novoreserva_flt
+		elif (self.sub_res2.isChecked()):
+			self.jog4a = self.reserva2a
+			self.jog4a_pts = self.reserva2a_pts
+			self.jog4a_flt = self.reserva2a_flt
+			self.reserva2a = novoreserva_nome
+			self.reserva2a_pts = novoreserva_pts
+			self.reserva2a_flt = novoreserva_flt
+		elif (self.sub_res3.isChecked()):
+			self.jog4a = self.reserva3a
+			self.jog4a_pts = self.reserva3a_pts
+			self.jog4a_flt = self.reserva3a_flt
+			self.reserva3a = novoreserva_nome
+			self.reserva3a_pts = novoreserva_pts
+			self.reserva3a_flt = novoreserva_flt
+		elif (self.sub_res4.isChecked()):
+			self.jog4a = self.reserva4a
+			self.jog4a_pts = self.reserva4a_pts
+			self.jog4a_flt = self.reserva4a_flt
+			self.reserva4a = novoreserva_nome
+			self.reserva4a_pts = novoreserva_pts
+			self.reserva4a_flt = novoreserva_flt
+		elif (self.sub_res5.isChecked()):
+			self.jog4a = self.reserva5a
+			self.jog4a_pts = self.reserva5a_pts
+			self.jog4a_flt = self.reserva5a_flt
+			self.reserva5a = novoreserva_nome
+			self.reserva5a_pts = novoreserva_pts
+			self.reserva5a_flt = novoreserva_flt
+		elif (self.sub_res6.isChecked()):
+			self.jog4a = self.reserva6a
+			self.jog4a_pts = self.reserva6a_pts
+			self.jog4a_flt = self.reserva6a_flt
+			self.reserva6a = novoreserva_nome
+			self.reserva6a_pts = novoreserva_pts
+			self.reserva6a_flt = novoreserva_flt
+		else:
+			self.jog4a = self.reserva7a
+			self.jog4a_pts = self.reserva7a_pts
+			self.jog4a_flt = self.reserva7a_flt
+			self.reserva7a = novoreserva_nome
+			self.reserva7a_pts = novoreserva_pts
+			self.reserva7a_flt = novoreserva_flt
+	else:
+		novoreserva_nome = self.jog5a
+		novoreserva_pts = self.jog5a_pts
+		novoreserva_flt = self.jog5a_flt
+		self.pt_flt_jog5.setChecked(False)
+		if (self.sub_res1.isChecked()):
+			self.jog5a = self.reserva1a
+			self.jog5a_pts = self.reserva1a_pts
+			self.jog5a_flt = self.reserva1a_flt
+			self.reserva1a = novoreserva_nome
+			self.reserva1a_pts = novoreserva_pts
+			self.reserva1a_flt = novoreserva_flt
+		elif (self.sub_res2.isChecked()):
+			self.jog5a = self.reserva2a
+			self.jog5a_pts = self.reserva2a_pts
+			self.jog5a_flt = self.reserva2a_flt
+			self.reserva2a = novoreserva_nome
+			self.reserva2a_pts = novoreserva_pts
+			self.reserva2a_flt = novoreserva_flt
+		elif (self.sub_res3.isChecked()):
+			self.jog5a = self.reserva3a
+			self.jog5a_pts = self.reserva3a_pts
+			self.jog5a_flt = self.reserva3a_flt
+			self.reserva3a = novoreserva_nome
+			self.reserva3a_pts = novoreserva_pts
+			self.reserva3a_flt = novoreserva_flt
+		elif (self.sub_res4.isChecked()):
+			self.jog5a = self.reserva4a
+			self.jog5a_pts = self.reserva4a_pts
+			self.jog5a_flt = self.reserva4a_flt
+			self.reserva4a = novoreserva_nome
+			self.reserva4a_pts = novoreserva_pts
+			self.reserva4a_flt = novoreserva_flt
+		elif (self.sub_res5.isChecked()):
+			self.jog5a = self.reserva5a
+			self.jog5a_pts = self.reserva5a_pts
+			self.jog5a_flt = self.reserva5a_flt
+			self.reserva5a = novoreserva_nome
+			self.reserva5a_pts = novoreserva_pts
+			self.reserva5a_flt = novoreserva_flt
+		elif (self.sub_res6.isChecked()):
+			self.jog5a = self.reserva6a
+			self.jog5a_pts = self.reserva6a_pts
+			self.jog5a_flt = self.reserva6a_flt
+			self.reserva6a = novoreserva_nome
+			self.reserva6a_pts = novoreserva_pts
+			self.reserva6a_flt = novoreserva_flt
+		else:
+			self.jog5a = self.reserva7a
+			self.jog5a_pts = self.reserva7a_pts
+			self.jog5a_flt = self.reserva7a_flt
+			self.reserva7a = novoreserva_nome
+			self.reserva7a_pts = novoreserva_pts
+			self.reserva7a_flt = novoreserva_flt
+	self.botao_timeA_1pt.setEnabled(True)
+	self.botao_timeA_2pt.setEnabled(True)
+	self.botao_timeA_3pt.setEnabled(True)
+	self.botao_timeA_falta.setEnabled(True)
+	self.botao_timeA_substituicao.setEnabled(True)
+	self.botao_timeB_1pt.setEnabled(True)
+	self.botao_timeB_2pt.setEnabled(True)
+	self.botao_timeB_3pt.setEnabled(True)
+	self.botao_timeB_falta.setEnabled(True)
+	self.botao_timeB_substituicao.setEnabled(True)
+	self.botao_desfazer.setEnabled(False)
+	self.atualizarDados()
+	byte_msg = self.dados.encode('utf-8')
+	tcp_client_socket.send(byte_msg)
+	self.painel_substituicao.hide()
+
+    
 
     def ok_pt_flt_A(self):
 	if (self.pt_flt_jog1.isChecked()):
@@ -415,7 +832,6 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.botao_ok_pt_flt_A.hide()
 	self.botao_ok_pt_flt_B.hide()
 	self.painel_pt_flt.close()
-
 
     def desfazer(self):
 	self.dados = self.dadosAnt
@@ -701,13 +1117,10 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.nome_timeA.setText("<font color='white'> " + self.nome_time_A + " </font>")
 	self.nome_timeB.setText("<font color='white'> " + self.nome_time_B + " </font>")
 	self.nome_arbitro_controle.setText("<font color='white'> " + self.arbitro + " </font>")
-
 	self.atualizarDados()	
-	#tcp_client_socket.connect((HOST,PORT))
 	message = self.dados
 	byte_msg = message.encode('utf-8')
 	tcp_client_socket.send(byte_msg)
-	#tcp_client_socket.close()
         self.Cadastro.hide()
 	self.painel_substituicao.hide()
 	self.painel_pt_flt.hide()
@@ -725,7 +1138,11 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.botao_timeB_falta.setEnabled(False)
 	self.botao_pausar.setEnabled(False)
 	self.botao_desfazer.setEnabled(False)
+	self.botao_timeA_tt.setEnabled(False)
+	self.botao_timeB_tt.setEnabled(False)
 	self.botao_iniciar.setEnabled(True)
+	self.botao_continuar_posse.setEnabled(False)
+	self.botao_zerar_posse.setEnabled(False)
 	self.Controle.show()
 	
         

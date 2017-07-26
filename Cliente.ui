@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1281</width>
-    <height>785</height>
+    <height>723</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,10 +33,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>-1</x>
-      <y>9</y>
+      <x>0</x>
+      <y>0</y>
       <width>1280</width>
-      <height>740</height>
+      <height>720</height>
      </rect>
     </property>
     <property name="title">
@@ -998,9 +998,9 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>-1</y>
       <width>1280</width>
-      <height>740</height>
+      <height>720</height>
      </rect>
     </property>
     <property name="title">
@@ -2366,9 +2366,89 @@ p, li { white-space: pre-wrap; }
     <zorder>painel_pt_flt</zorder>
     <zorder>painel_posse</zorder>
     <zorder>painel_cronometro_posse</zorder>
+    <zorder>A_Inicial</zorder>
+   </widget>
+   <widget class="QGroupBox" name="A_Inicial">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1280</width>
+      <height>740</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QLabel" name="Background_inicial">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1280</width>
+       <height>720</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>Controle.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="texto_Ip_do_Servidor">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>350</y>
+       <width>181</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Courier 10 Pitch</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#dcdcdc;&quot;&gt;IP do Servidor:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="ip_servidor">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>350</y>
+       <width>221</width>
+       <height>27</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="botao_conectar">
+     <property name="geometry">
+      <rect>
+       <x>770</x>
+       <y>350</y>
+       <width>99</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Conectar</string>
+     </property>
+    </widget>
+    <zorder>Background_inicial</zorder>
+    <zorder>Controle</zorder>
+    <zorder>texto_Ip_do_Servidor</zorder>
+    <zorder>ip_servidor</zorder>
+    <zorder>botao_conectar</zorder>
    </widget>
    <zorder>Controle</zorder>
    <zorder>Cadastro</zorder>
+   <zorder>A_Inicial</zorder>
   </widget>
  </widget>
  <resources/>
