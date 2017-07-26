@@ -2366,7 +2366,6 @@ p, li { white-space: pre-wrap; }
     <zorder>painel_pt_flt</zorder>
     <zorder>painel_posse</zorder>
     <zorder>painel_cronometro_posse</zorder>
-    <zorder>A_Inicial</zorder>
    </widget>
    <widget class="QGroupBox" name="A_Inicial">
     <property name="geometry">
@@ -2393,7 +2392,7 @@ p, li { white-space: pre-wrap; }
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>Controle.png</pixmap>
+      <pixmap>Conexão.png</pixmap>
      </property>
     </widget>
     <widget class="QLabel" name="texto_Ip_do_Servidor">
@@ -2440,11 +2439,6 @@ p, li { white-space: pre-wrap; }
       <string>Conectar</string>
      </property>
     </widget>
-    <zorder>Background_inicial</zorder>
-    <zorder>Controle</zorder>
-    <zorder>texto_Ip_do_Servidor</zorder>
-    <zorder>ip_servidor</zorder>
-    <zorder>botao_conectar</zorder>
    </widget>
    <zorder>Controle</zorder>
    <zorder>Cadastro</zorder>

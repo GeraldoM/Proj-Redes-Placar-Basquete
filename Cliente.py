@@ -1,3 +1,4 @@
+#coding=utf-8
 import sys
 import socket
 import time
@@ -5,21 +6,22 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.uic import loadUiType
 from PyQt4.QtGui import QSound
 from threading import Thread
-#from PyQt4.QtMultimedia import QAudioOutput, QAudioFormat
-#from PyQt4.QtGui import QApplication
 
+Ui_MainWindow, QMainWindow = loadUiType('Cliente.ui')
+
+#Estrutura inicial do client TCP/IP
 HOST = socket.gethostbyname('localhost')
 PORT = 3000
 tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-#Estrutura inicial do client TCP/IP
-#tcp_client_socket.connect((HOST,PORT))
-
-Ui_MainWindow, QMainWindow = loadUiType('Cliente.ui')
 
 parado = True
 parado_posse = True
 zerar_posse = False
+
+""" Cria a classe referente ao cronometro da posse de bola. Nela, é implementado uma Thread com um loop
+que roda durante todo o programa, modificando valores e setando os valores do cronometro da posse de bola
+na tela de controle do cliente. """
 class Cronometro_posse(Thread):
 	ct_sec = 24
 	acabou = False
@@ -51,7 +53,9 @@ class Cronometro_posse(Thread):
 					self.crono.botao_zerar_posse.setEnabled(False)
 			
 
-
+""" Cria a classe referente ao cronometro do tempo de partida. Nela, é implementado uma Thread com um loop
+que roda durante todo o programa, modificando valores e setando os valores do cronometro do tempo da partida na
+tela de controle do cliente. """
 class Cronometro(Thread):
 	ct_sec = 0
 	ct_min = 10
@@ -116,7 +120,7 @@ class Cronometro(Thread):
 
 		
 
- 
+""" Classe main, define todas as variáveis referente aos dados dos times, jogadores e da partida. """
 class Main(QMainWindow, Ui_MainWindow) :
     dados = ""
     dadosAnt = ""
@@ -206,6 +210,9 @@ class Main(QMainWindow, Ui_MainWindow) :
     pausado = False
     periodo = 1
 
+    """ A função __init__ é uma função inicial que instancia um objeto da classe Cronometro e Cronometro_posse e os inicia, 
+    define a conexão entre os elementos da interface gráfica e as funções associadas a eles e gerencia as telas de exibição, 
+    inicialmente exibindo a tela de conexão com o servidor. """
     def __init__(self, ) :
         super(Main, self).__init__()
         self.setupUi(self)
@@ -240,7 +247,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.botao_continuar_posse.clicked.connect(self.pausar_continuar_posse)
 	self.botao_zerar_posse.clicked.connect(self.zerar_cronometro_posse)
 	
-	
+    """ A função 'conectar' é referente ao botão 'Conectar' da tela de conexão com o servidor (tela inicial). Ao clicar,
+    é armazenado os dados do campo preenchido com o IP e feito a conexão TCP utilizando o IP passado pelo campo. Após
+    a conexão bem sucedida, é feito gerenciamento de tela ocultando a tela de conexão e exibindo a tela de cadastro."""
     def conectar(self):
 	global HOST
 	global PORT
@@ -250,10 +259,14 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.A_Inicial.hide()
 	self.Cadastro.show()
 
+    """ A função 'atualizarDados' tem como objetivo pegar todos os valores de dados atualizados referente aos time, 
+    jogadores e partida e colocá-los na variável 'dados', que armazena em String todos os dados em um padrão que
+    é interpretado pelo servidor. """
     def atualizarDados(self):
 	self.dados = (str(self.nome_time_A) + " " + str(self.time_A_pts) + " " + str(self.time_A_flt_total) + " " + str(self.jog1a) + " " + str(self.jog2a) + " " + str(self.jog3a) + " " + str(self.jog4a) + " " + str(self.jog5a) + " " + str(self.jog1a_pts) + " " + str(self.jog2a_pts) + " " + str(self.jog3a_pts) + " " + str(self.jog4a_pts) + " " + str(self.jog5a_pts) + " " + str(self.jog1a_flt) + " " + str(self.jog2a_flt) + " " + str(self.jog3a_flt) + " " + str(self.jog4a_flt) + " " + str(self.jog5a_flt) + " " + str(self.nome_time_B) + " " + str(self.time_B_pts) + " " + str(self.time_B_flt_total) + " " + str(self.jog1b) + " " + str(self.jog2b) + " " + str(self.jog3b) + " " + str(self.jog4b) + " " + str(self.jog5b) + " " + str(self.jog1b_pts) + " " + str(self.jog2b_pts) + " " + str(self.jog3b_pts) + " " + str(self.jog4b_pts) + " " + str(self.jog5b_pts) + " " + str(self.jog1b_flt) + " " + str(self.jog2b_flt) + " " + str(self.jog3b_flt) + " " + str(self.jog4b_flt) + " " + str(self.jog5b_flt))
 	
-
+    """ A função 'atualizarDadosCliente' tem como objetivo atualizar todos os dados que possuem exibição na tela do 
+    cliente (tela de controle), tais como: total de pontos e total de faltas. """
     def atualizarDadosCliente(self):
 	if (self.time_A_pts < 10):
 		self.ponto_centro_timeA.setText("<font color='red'> " + "0" + str(self.time_A_pts) + " </font>")
@@ -266,10 +279,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 		self.ponto_centro_timeB.setText("<font color='red'> " + "0" + str(self.time_B_pts) + " </font>")
 	self.falta_centro_timeB.setText("<font color='gray'> " + str(self.time_B_flt_total) + " </font>")
 
-    def ponto_sound(self):
-	sound_file = "/home/geraldo/ponto.wav"
-	QSound.play(sound_file)
-
+    """ A função 'iniciar' é acionada ao clicar no botão 'Iniciar' na tela do cliente (tela de controle). Ela
+    tem como objetivo iniciar os cronometros, alterando as variáveis que modificam seu comportamento (parado ou rodando),
+    ativar/desativar os botões de funcionamento da partida e enviar o comando para o servidor também iniciar. """
     def iniciar (self):
 	global parado
 	global parado_posse
@@ -297,6 +309,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 		self.botao_timeB_tt.setEnabled(True)
 	self.botao_iniciar.setEnabled(False)
 
+    """ A função 'timeA_tt' é acionada ao clicar no botão do tempo técnico do time A. Ela conta a quantidade de tempo
+    técnico utilizado pelo time A e realiza seu funcionamento, enviando para o servidor o comando que informa que
+    um tempo técnico foi utilizado. """
     def timeA_tt(self):
 	self.time_A_tt_total += 1
 	print(self.time_A_tt_total)
@@ -310,6 +325,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 		tcp_client_socket.send(byte_msg)
 		self.botao_timeA_tt.setEnabled(False)
 
+    """ A função 'timeB_tt' é acionada ao clicar no botão do tempo técnico do time B. Ela conta a quantidade de tempo
+    técnico utilizado pelo time B e realiza seu funcionamento, enviando para o servidor o comando que informa que
+    um tempo técnico foi utilizado. """
     def timeB_tt(self):
 	self.time_B_tt_total += 1
 	if (self.time_B_tt_total == 1):
@@ -322,7 +340,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 		tcp_client_socket.send(byte_msg)
 		self.botao_timeB_tt.setEnabled(False)
 
-	
+    """ A função 'pausar_continuar' é acionada ao clicar no botão "Pausar/Continuar" na tela de controle e realiza a 
+    parada e a retomada da partida, alterando as variáveis de controle dos cronometros, alguns botões e enviando o 
+    comando para o servidor parar ou continuar a partida, dependendo do caso. """
     def pausar_continuar (self):
 	global parado
 	global parado_posse
@@ -346,6 +366,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 		byte_msg = message.encode('utf-8')
 		tcp_client_socket.send(byte_msg)
 
+    """ A função 'pausar_continuar_posse' é acionada ao clicar no botão 'Pausar' da posse de bola, na tela de controle e
+    realiza a parada ou retomada do cronometro da posse de bola, dependendo da situação, altera o texto no botão de acordo
+    com a estado do cronometro e envia o comando para o servidor. """
     def pausar_continuar_posse (self):
 	global parado_posse
 	if(parado_posse == False):
@@ -362,6 +385,8 @@ class Main(QMainWindow, Ui_MainWindow) :
 		byte_msg = message.encode('utf-8')
 		tcp_client_socket.send(byte_msg)
 
+    """ A função 'zerar_cronometro_posse' é acionada ao clicar no botão 'Zerar' na tela de controle e como o próprio nome já sugere, 
+    realiza o 'reset' no contador do cronometro da posse de bola e envia uma mensagem para o servidor com o comando. """
     def zerar_cronometro_posse (self):
 	global zerar_posse
 	zerar_posse = True
@@ -369,6 +394,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	byte_msg = message.encode('utf-8')
 	tcp_client_socket.send(byte_msg)
 
+    """ A função 'substituicao_A' é acionada ao clicar no botão 'Substituição' no painel do time A e exibe uma tela ao lado do painel do 
+    time A com todos os jogadores titulares e reservas do respectivo time com um checkbox em cada um, permitindo o usuário marcar somente
+    UM titular e somente UM reserva para realizar a substituição. """
     def substituicao_A(self):
 	self.botao_ok_substituicao_A.show()
 	self.painel_substituicao.move(70, 210)
@@ -397,6 +425,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.botao_desfazer.setEnabled(False)
 	self.painel_substituicao.show()
 		
+    """ A função 'substituicao_B' é acionada ao clicar no botão 'Substituição' no painel do time B e exibe uma tela ao lado do painel do 
+    time B com todos os jogadores titulares e reservas do respectivo time com um checkbox em cada um, permitindo o usuário marcar somente
+    UM titular e somente UM reserva para realizar a substituição. """
     def substituicao_B(self):
 	self.botao_ok_substituicao_B.show()
 	self.painel_substituicao.move(900, 210)
@@ -424,7 +455,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.botao_timeB_substituicao.setEnabled(False)
 	self.botao_desfazer.setEnabled(False)
 	self.painel_substituicao.show()
-	
+
+    """ A função 'cancelar_substituicao' é acionada ao clicar no botão 'Cancelar' no painel de substituição. Como
+    o próprio nome sugere, realiza o cancelamento da substituição, fechando o painel de substituição. """
     def cancelar_substituicao(self):
 	self.botao_ok_substituicao_A.hide()
 	self.botao_ok_substituicao_B.hide()
@@ -440,6 +473,11 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.botao_timeB_falta.setEnabled(True)
 	self.botao_timeB_substituicao.setEnabled(True)
 
+    """ A função 'ok_substituicao_A' é acionada ao clicar no botão 'Ok' no painel de substituição do time A. Ou seja,
+    é a função responsável por realizar de fato a substituição após o usuário confirmar a mesma. A função testa caso
+    por caso qual checkbox estar marcado nos jogadores TITULARES e nos RESERVAS e realiza a substituição, transferindo
+    valores de ponto e faltas individuais de cada jogador pra suas novas variáveis. Após isso, chama a função 'atualizarDados'
+    e envia os dados atualizados para o servidor atualizar, fechando o painel de substituição em seguida. """
     def ok_substituicao_A(self):
 	self.botao_ok_substituicao_A.hide()
 	self.botao_ok_substituicao_B.hide()
@@ -730,6 +768,11 @@ class Main(QMainWindow, Ui_MainWindow) :
 	tcp_client_socket.send(byte_msg)
 	self.painel_substituicao.hide()
 
+    """ A função 'ok_substituicao_B' é acionada ao clicar no botão 'Ok' no painel de substituição do time B. Ou seja,
+    é a função responsável por realizar de fato a substituição após o usuário confirmar a mesma. A função testa caso
+    por caso qual checkbox estar marcado nos jogadores TITULARES e nos RESERVAS e realiza a substituição, transferindo
+    valores de ponto e faltas individuais de cada jogador pra suas novas variáveis. Após isso, chama a função 'atualizarDados'
+    e envia os dados atualizados para o servidor atualizar, fechando o painel de substituição em seguida. """
     def ok_substituicao_B(self):
 	self.botao_ok_substituicao_A.hide()
 	self.botao_ok_substituicao_B.hide()
@@ -1020,6 +1063,10 @@ class Main(QMainWindow, Ui_MainWindow) :
 	tcp_client_socket.send(byte_msg)
 	self.painel_substituicao.hide()
 
+    """ A função 'ok_pt_flt_A' é acionada ao clicar em 'Ok' na tela da pontuação ou falta do time A. A função realiza
+    a verificação de qual jogador está marcado no checkbox e incrementa os valores de ponto ou falta total do time e
+    o individual do respectivo jogador de acordo com os valores passados pelas variáveis 'pontotemp' ou 'faltatemp', 
+    que armazena os valores de acordo com os botões clicados na tela de controle. """
     def ok_pt_flt_A(self):
 	if (self.pt_flt_jog1.isChecked()):
 		self.time_A_pts += self.pontotemp
@@ -1078,6 +1125,10 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.botao_ok_pt_flt_B.hide()
 	self.painel_pt_flt.close()
 
+    """ A função 'ok_pt_flt_B' é acionada ao clicar em 'Ok' na tela da pontuação ou falta do time B. A função realiza
+    a verificação de qual jogador está marcado no checkbox e incrementa os valores de ponto ou falta total do time e
+    o individual do respectivo jogador de acordo com os valores passados pelas variáveis 'pontotemp' ou 'faltatemp', 
+    que armazena os valores de acordo com os botões clicados na tela de controle. """
     def ok_pt_flt_B(self):
 	if (self.pt_flt_jog1.isChecked()):
 		self.time_B_pts += self.pontotemp
@@ -1132,6 +1183,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.botao_ok_pt_flt_B.hide()
 	self.painel_pt_flt.close()
 
+    """ A função 'desfazer' é acionada ao clicar no botão 'Desfazer' na tela de controle do cliente. Ela realiza
+    a alteração dos valores da variável 'dados' para os valores da variável 'dadosAnt', que armazena sempre os valores
+    de uma ação atrás. Assim, qualquer pontuação ou falta realizada é desfeita. """
     def desfazer(self):
 	self.dados = self.dadosAnt
 	temp = self.dados.split()
@@ -1144,6 +1198,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.botao_desfazer.setEnabled(False)
 	self.atualizarDadosCliente()
 
+    """A função 'timeA_1pt' é acionada ao clicar no botão '+1' no painel do time A. Ela exibe o painel
+    com todos os jogadores do time A e um checkbox em cada um, permitindo que somente UM seja marcado para determinar
+    qual jogador realizou o ponto. Ela também altera os valores das variáveis 'pontotemp' para 1 e 'faltatemp' para 0. """
     def timeA_1pt (self):
 	self.botao_timeA_1pt.setEnabled(False)
 	self.botao_timeA_2pt.setEnabled(False)
@@ -1168,7 +1225,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.painel_pt_flt.show()
 	self.botao_ok_pt_flt_A.show()
 	
-
+    """A função 'timeA_2pt' é acionada ao clicar no botão '+2' no painel do time A. Ela exibe o painel
+    com todos os jogadores do time A e um checkbox em cada um, permitindo que somente UM seja marcado para determinar
+    qual jogador realizou o ponto. Ela também altera os valores das variáveis 'pontotemp' para 2 e 'faltatemp' para 0. """
     def timeA_2pt (self):
 	self.botao_timeA_1pt.setEnabled(False)
 	self.botao_timeA_2pt.setEnabled(False)
@@ -1193,6 +1252,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.painel_pt_flt.show()
 	self.botao_ok_pt_flt_A.show()
     
+    """A função 'timeA_3pt' é acionada ao clicar no botão '+3' no painel do time A. Ela exibe o painel
+    com todos os jogadores do time A e um checkbox em cada um, permitindo que somente UM seja marcado para determinar
+    qual jogador realizou o ponto. Ela também altera os valores das variáveis 'pontotemp' para 3 e 'faltatemp' para 0. """
     def timeA_3pt (self):
 	self.botao_timeA_1pt.setEnabled(False)
 	self.botao_timeA_2pt.setEnabled(False)
@@ -1217,6 +1279,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.painel_pt_flt.show()
 	self.botao_ok_pt_flt_A.show()
 
+    """A função 'timeA_falta' é acionada ao clicar no botão 'Falta' no painel do time A. Ela exibe o painel
+    com todos os jogadores do time A e um checkbox em cada um, permitindo que somente UM seja marcado para determinar
+    qual jogador realizou a falta. Ela também altera os valores das variáveis 'pontotemp' para 0 e 'faltatemp' para 1. """
     def timeA_falta (self):
 	self.botao_timeA_1pt.setEnabled(False)
 	self.botao_timeA_2pt.setEnabled(False)
@@ -1241,6 +1306,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.painel_pt_flt.show()
 	self.botao_ok_pt_flt_A.show()
 
+    """A função 'timeB_1pt' é acionada ao clicar no botão '+1' no painel do time B. Ela exibe o painel
+    com todos os jogadores do time B e um checkbox em cada um, permitindo que somente UM seja marcado para determinar
+    qual jogador realizou o ponto. Ela também altera os valores das variáveis 'pontotemp' para 1 e 'faltatemp' para 0. """
     def timeB_1pt (self):
 	self.botao_timeA_1pt.setEnabled(False)
 	self.botao_timeA_2pt.setEnabled(False)
@@ -1264,7 +1332,10 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.painel_pt_flt.move(800, 210)
 	self.painel_pt_flt.show()
 	self.botao_ok_pt_flt_B.show()
-    
+ 
+    """A função 'timeB_2pt' é acionada ao clicar no botão '+2' no painel do time B. Ela exibe o painel
+    com todos os jogadores do time B e um checkbox em cada um, permitindo que somente UM seja marcado para determinar
+    qual jogador realizou o ponto. Ela também altera os valores das variáveis 'pontotemp' para 2 e 'faltatemp' para 0. """   
     def timeB_2pt (self):
 	self.botao_timeA_1pt.setEnabled(False)
 	self.botao_timeA_2pt.setEnabled(False)
@@ -1289,6 +1360,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.painel_pt_flt.show()
 	self.botao_ok_pt_flt_B.show()
     
+    """A função 'timeB_3pt' é acionada ao clicar no botão '+3' no painel do time B. Ela exibe o painel
+    com todos os jogadores do time B e um checkbox em cada um, permitindo que somente UM seja marcado para determinar
+    qual jogador realizou o ponto. Ela também altera os valores das variáveis 'pontotemp' para 3 e 'faltatemp' para 0. """
     def timeB_3pt (self):
 	self.botao_timeA_1pt.setEnabled(False)
 	self.botao_timeA_2pt.setEnabled(False)
@@ -1313,6 +1387,9 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.painel_pt_flt.show()
 	self.botao_ok_pt_flt_B.show()
 
+    """A função 'timeB_falta' é acionada ao clicar no botão 'Falta' no painel do time B. Ela exibe o painel
+    com todos os jogadores do time B e um checkbox em cada um, permitindo que somente UM seja marcado para determinar
+    qual jogador realizou a falta. Ela também altera os valores das variáveis 'pontotemp' para 0 e 'faltatemp' para 1. """
     def timeB_falta (self):
 	self.botao_timeA_1pt.setEnabled(False)
 	self.botao_timeA_2pt.setEnabled(False)
@@ -1337,9 +1414,12 @@ class Main(QMainWindow, Ui_MainWindow) :
 	self.painel_pt_flt.show()
 	self.botao_ok_pt_flt_B.show()
 
+    """ A função 'avancar' é acionada ao clicar no botão 'Avançar' na tela de cadastro. Ela realiza a transferências
+    de todos os campos preenchidos pelo usuário na tela de cadastro e armazena em variáveis, inicializa os valores
+    referente as pontuações e faltas, atualiza os valores da variavel 'dados' através da função 'atualizarDados' e 
+    manda pro servidor. Além disso, ela fecha a tela de cadastro, abre a tela de controle e atualiza os dados dos times e
+    altera o estado dos botões de controle. """
     def avancar (self):
-	
-
 	self.nome_time_A = self.nome_time_A.text()
 	self.time_A_pts = 0
 	self.time_A_flt_total = 0

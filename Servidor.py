@@ -1,3 +1,4 @@
+#coding=utf-8
 import sys
 import socket
 import time
@@ -9,7 +10,7 @@ from threading import Thread
 Ui_MainWindow, QMainWindow = loadUiType('Servidor HD.ui')
 
 #Variaveis de apoio
-HOST = socket.gethostbyname('localhost')
+HOST = socket.gethostbyname('127.0.0.1')
 PORT = 3000
 
 #Instanciando transporte TCP/IP
@@ -24,6 +25,9 @@ parado = True
 parado_posse = True
 zerar_posse = False
 
+""" Cria a classe referente ao cronometro da posse de bola. Nela, é implementado uma Thread com um loop
+que roda durante todo o programa, modificando valores e setando os valores do cronometro da posse de bola
+na tela do servidor. """
 class Cronometro_posse(Thread):
 	ct_sec = 24
 	acabou = False
@@ -50,6 +54,10 @@ class Cronometro_posse(Thread):
 				if (self.ct_sec<0):
 					zerar_posse = True
 					parado_posse = True
+
+""" Cria a classe referente ao cronometro do tempo de partida. Nela, é implementado uma Thread com um loop
+que roda durante todo o programa, modificando valores e setando os valores do cronometro do tempo da partida na
+tela do servidor. """
 class Cronometro(Thread):
 	ct_sec = 0
 	ct_min = 10
@@ -76,8 +84,7 @@ class Cronometro(Thread):
 					else:
 						self.crono.cronometro_segundos.setText("<font color='red'> " + str(self.ct_sec) + " </font>")
 					self.crono.cronometro_minutos.setText("<font color='red'> " "0" + str(self.ct_min) + " </font>")
-					print(str(self.ct_min) + ":" + str(self.ct_sec))
-					print parado
+					#print(str(self.ct_min) + ":" + str(self.ct_sec))
 					if (self.ct_min <= 0 and self.ct_sec <= 0):
 						parado = True
 						parado_posse = True
@@ -100,90 +107,105 @@ class Cronometro(Thread):
 								self.acabou = True
 								client.close()
 								tcp_server_socket.close()
-			
+				
 
-		#client.close()
-		#tcp_server_socket.close()
-		
-
-
+""" A classe 'Th' é reponsável por todo o funcionamento do servidor. É uma Thread que roda durante todo o programa
+em loop, interpreta todos os comandos recebidos e realiza diversas alterações no servidor em função de cada comando,
+tais como: iniciar e pausar cronometros, zerar posse de bola e atualizar todos os dados referente a partida . """
 class Th(Thread):
 		
 
                 def __init__ (self, info):
                       Thread.__init__(self)
-		      self.info = info
-		      #print (teste.time_A_jog1.text())
-		      #teste.timeA_nome_centro.setText("AFF")
-		
-		
+		      self.info = info	
 
                 def run(self):
-		   #while True:
 		   global parado
 		   global parado_posse
 		   global zerar_posse
 		   client, addr = tcp_server_socket.accept()
                    while True:
-			#client, addr = tcp_server_socket.accept()
 			data = client.recv(2048)
 			data = data.decode('utf-8')
-			dados = data.split()
-			print("Comando recebido: " + data)
-			self.info.timeA_nome_centro.setText("<font color='white'> " + dados[0] + " </font>")
-			self.info.time_A_nome_painel_direito.setText(dados[0])
-			if(int(dados[1]) < 10):
-				self.info.timeA_pts_centro.setText("<font color='red'> " "0" + dados[1] + " </font>")
+			if (data == "#iniciar"):
+				parado = False
+				parado_posse = False
+			elif (data == "#pausar"):
+				parado = True
+				parado_posse = True
+			elif (data == "#continuar"):
+				parado = False
+				parado_posse = False
+			elif (data == "#tt_A1"):
+				self.info.timeA_tt1.setEnabled(False)
+			elif (data == "#tt_A2"):
+				self.info.timeA_tt2.setEnabled(False)
+			elif (data == "#tt_B1"):
+				self.info.timeB_tt1.setEnabled(False)
+			elif (data == "#tt_B2"):
+				self.info.timeB_tt2.setEnabled(False)
+			elif (data == "#pausar_posse"):
+				parado_posse = True
+			elif (data == "#continuar_posse"):
+				parado_posse = False
+			elif (data == "#zerar_posse"):
+				zerar_posse = True
+			
 			else:
-				self.info.timeA_pts_centro.setText("<font color='red'> " + dados[1] + " </font>")
-			self.info.timeA_flt_centro.setText("<font color='gray'> " + dados[2] + " </font>")
-			self.info.timeA_total_pts.setText(dados[1])
-			self.info.timeA_total_flt.setText(dados[2])
-			self.info.time_A_jog1.setText(dados[3])
-			self.info.time_A_jog2.setText(dados[4])
-			self.info.time_A_jog3.setText(dados[5])
-			self.info.time_A_jog4.setText(dados[6])
-			self.info.time_A_jog5.setText(dados[7])
-			self.info.timeA_jog1_pts.setText(dados[8])
-			self.info.timeA_jog2_pts.setText(dados[9])
-			self.info.timeA_jog3_pts.setText(dados[10])
-			self.info.timeA_jog4_pts.setText(dados[11])
-			self.info.timeA_jog5_pts.setText(dados[12])
-			self.info.timeA_jog1_flt.setText(dados[13])
-			self.info.timeA_jog2_flt.setText(dados[14])
-			self.info.timeA_jog3_flt.setText(dados[15])
-			self.info.timeA_jog4_flt.setText(dados[16])
-			self.info.timeA_jog5_flt.setText(dados[17])
-			self.info.timeB_nome_centro.setText("<font color='white'> " + dados[18] + " </font>")
-			self.info.time_B_nome_painel_direito.setText(dados[18])
-			if (int(dados[19]) < 10):
-				self.info.timeB_pts_centro.setText("<font color='red'> " "0" + dados[19] + " </font>")
-			else:
-				self.info.timeB_pts_centro.setText("<font color='red'> " + dados[19] + " </font>")
-			self.info.timeB_flt_centro.setText("<font color='gray'> " + dados[20] + " </font>")
-			self.info.timeB_total_pts.setText(dados[19])
-			self.info.timeB_total_flt.setText(dados[20])
-			self.info.time_B_jog1.setText(dados[21])
-			self.info.time_B_jog2.setText(dados[22])
-			self.info.time_B_jog3.setText(dados[23])
-			self.info.time_B_jog4.setText(dados[24])
-			self.info.time_B_jog5.setText(dados[25])
-			self.info.timeB_jog1_pts.setText(dados[26])
-			self.info.timeB_jog2_pts.setText(dados[27])
-			self.info.timeB_jog3_pts.setText(dados[28])
-			self.info.timeB_jog4_pts.setText(dados[29])
-			self.info.timeB_jog5_pts.setText(dados[30])
-			self.info.timeB_jog1_flt.setText(dados[31])
-			self.info.timeB_jog2_flt.setText(dados[32])
-			self.info.timeB_jog3_flt.setText(dados[33])
-			self.info.timeB_jog4_flt.setText(dados[34])
-			self.info.timeB_jog5_flt.setText(dados[35])
+				dados = data.split()
+				print("Comando recebido: " + data)
+				self.info.timeA_nome_centro.setText("<font color='white'> " + dados[0] + " </font>")
+				self.info.time_A_nome_painel_direito.setText(dados[0])
+				if(int(dados[1]) < 10):
+					self.info.timeA_pts_centro.setText("<font color='red'> " "0" + dados[1] + " </font>")
+				else:
+					self.info.timeA_pts_centro.setText("<font color='red'> " + dados[1] + " </font>")
+				self.info.timeA_flt_centro.setText("<font color='gray'> " + dados[2] + " </font>")
+				self.info.timeA_total_pts.setText(dados[1])
+				self.info.timeA_total_flt.setText(dados[2])
+				self.info.time_A_jog1.setText(dados[3])
+				self.info.time_A_jog2.setText(dados[4])
+				self.info.time_A_jog3.setText(dados[5])
+				self.info.time_A_jog4.setText(dados[6])
+				self.info.time_A_jog5.setText(dados[7])
+				self.info.timeA_jog1_pts.setText(dados[8])
+				self.info.timeA_jog2_pts.setText(dados[9])
+				self.info.timeA_jog3_pts.setText(dados[10])
+				self.info.timeA_jog4_pts.setText(dados[11])
+				self.info.timeA_jog5_pts.setText(dados[12])
+				self.info.timeA_jog1_flt.setText(dados[13])
+				self.info.timeA_jog2_flt.setText(dados[14])
+				self.info.timeA_jog3_flt.setText(dados[15])
+				self.info.timeA_jog4_flt.setText(dados[16])
+				self.info.timeA_jog5_flt.setText(dados[17])
+				self.info.timeB_nome_centro.setText("<font color='white'> " + dados[18] + " </font>")
+				self.info.time_B_nome_painel_direito.setText(dados[18])
+				if (int(dados[19]) < 10):
+					self.info.timeB_pts_centro.setText("<font color='red'> " "0" + dados[19] + " </font>")
+				else:
+					self.info.timeB_pts_centro.setText("<font color='red'> " + dados[19] + " </font>")
+				self.info.timeB_flt_centro.setText("<font color='gray'> " + dados[20] + " </font>")
+				self.info.timeB_total_pts.setText(dados[19])
+				self.info.timeB_total_flt.setText(dados[20])
+				self.info.time_B_jog1.setText(dados[21])
+				self.info.time_B_jog2.setText(dados[22])
+				self.info.time_B_jog3.setText(dados[23])
+				self.info.time_B_jog4.setText(dados[24])
+				self.info.time_B_jog5.setText(dados[25])
+				self.info.timeB_jog1_pts.setText(dados[26])
+				self.info.timeB_jog2_pts.setText(dados[27])
+				self.info.timeB_jog3_pts.setText(dados[28])
+				self.info.timeB_jog4_pts.setText(dados[29])
+				self.info.timeB_jog5_pts.setText(dados[30])
+				self.info.timeB_jog1_flt.setText(dados[31])
+				self.info.timeB_jog2_flt.setText(dados[32])
+				self.info.timeB_jog3_flt.setText(dados[33])
+				self.info.timeB_jog4_flt.setText(dados[34])
+				self.info.timeB_jog5_flt.setText(dados[35])
 				
- 			#print("\nMensagem de teste")
-		   #client.close()
-		   #tcp_server_socket.close()
 
-
+""" Classe 'Main', responsável por exibir valores de pontuação e faltas iniciais de cada time, inicializar
+os cronometros do tempo de partida, de posse de bola e da função que recebe os dados e comandos do servidor. """
 class Main(QMainWindow, Ui_MainWindow) :
     def __init__(self, ) :
         super(Main, self).__init__()
@@ -203,15 +225,11 @@ class Main(QMainWindow, Ui_MainWindow) :
 	recebeDados.start()
 	
 
-	
-
-
 if __name__ == '__main__' :
     app = QtGui.QApplication(sys.argv)
     main = Main()
     main.show()
-    #main.showFullScreen()
-    #main.showMaximized()
+    main.showFullScreen()
     sys.exit(app.exec_())
 
 
